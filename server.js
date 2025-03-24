@@ -19,7 +19,7 @@ app.get('/api/truck-location', async (req, res) => {
     if (!accessToken) await getAccessToken();
 
     const response = await axios.get(
-      `https://api.bouncie.dev/api/v1/vehicles/${process.env.VEHICLE_ID}/locations`,
+      `https://api.bouncie.com/api/v1/vehicles/${process.env.VEHICLE_ID}/locations`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -39,7 +39,7 @@ app.get('/api/vehicle-list', async (req, res) => {
   try {
     if (!accessToken) await getAccessToken();
 
-    const response = await axios.get('https://api.bouncie.dev/api/v1/vehicles', {
+    const response = await axios.get('https://api.bouncie.com/api/v1/vehicles', {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
