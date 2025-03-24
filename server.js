@@ -19,7 +19,7 @@ app.get('/api/truck-location', async (req, res) => {
     if (!accessToken) await getAccessToken();
 
     const response = await axios.get(
-      \`https://api.bouncie.dev/api/v1/vehicles/\${process.env.VEHICLE_ID}/locations\`,
+      `https://api.bouncie.dev/api/v1/vehicles/\${process.env.VEHICLE_ID}/locations`,
       {
         headers: {
           Authorization: \`Bearer \${accessToken}\`
