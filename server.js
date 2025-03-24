@@ -46,10 +46,13 @@ app.get('/api/vehicle-list', async (req, res) => {
     });
 
     res.json(response.data);
-  } catch (error) {
-    console.error('Error fetching vehicle list:', error.message);
-    res.status(500).json({ error: 'Failed to fetch vehicle list' });
-  }
+} catch (error) {
+  console.error('Error fetching vehicle list:', error.response?.data || error.message);
+  res.status(500).json({ 
+    error: 'Failed to fetch vehicle list',
+    details: error.response?.data || error.message
+  });
+}
 });
 
 const PORT = process.env.PORT || 3000;
