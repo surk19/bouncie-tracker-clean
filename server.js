@@ -6,7 +6,7 @@ const app = express();
 let accessToken = null;
 
 async function getAccessToken() {
-  const response = await axios.post('https://auth.bouncie.dev/oauth/token', {
+  const response = await axios.post('https://auth.bouncie.com/oauth/token', {
     grant_type: 'client_credentials',
     client_id: process.env.CLIENT_ID,
     client_secret: process.env.CLIENT_SECRET
