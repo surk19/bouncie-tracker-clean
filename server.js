@@ -19,10 +19,10 @@ app.get('/api/truck-location', async (req, res) => {
     if (!accessToken) await getAccessToken();
 
     const response = await axios.get(
-      `https://api.bouncie.dev/api/v1/vehicles/\${process.env.VEHICLE_ID}/locations`,
+      `https://api.bouncie.dev/api/v1/vehicles/${process.env.VEHICLE_ID}/locations`,
       {
         headers: {
-          Authorization: \`Bearer \${accessToken}\`
+          Authorization: `Bearer ${accessToken}`
         }
       }
     );
@@ -41,7 +41,7 @@ app.get('/api/vehicle-list', async (req, res) => {
 
     const response = await axios.get('https://api.bouncie.dev/api/v1/vehicles', {
       headers: {
-        Authorization: \`Bearer \${accessToken}\`
+        Authorization: `Bearer ${accessToken}`
       }
     });
 
@@ -53,4 +53,4 @@ app.get('/api/vehicle-list', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(\`Server running on port \${PORT}\`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
