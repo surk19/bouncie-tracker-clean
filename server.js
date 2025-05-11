@@ -2,10 +2,6 @@ const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
 
-const express = require('express');
-const axios = require('axios');
-require('dotenv').config();
-
 console.log('✅ Using Bouncie API: https://api.bouncie.dev');
 console.log('USE_MOCK:', process.env.USE_MOCK);
 console.log('VEHICLE_ID:', process.env.VEHICLE_ID);
