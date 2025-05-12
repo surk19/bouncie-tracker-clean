@@ -2,34 +2,28 @@ const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
 
-console.log('✅ Using Bouncie API: https://api.bouncie.dev');
-console.log('USE_MOCK:', process.env.USE_MOCK);
-console.log('VEHICLE_ID:', process.env.VEHICLE_ID);
-
 const app = express();
 
+// Debug logs (optional)
+console.log('🚀 Halal Truck Tracker Starting');
+console.log('VEHICLE_ID:', process.env.VEHICLE_ID ? '✅' : '❌ MISSING');
+console.log('Access Token:', process.env.BOUNCIE_ACCESS_TOKEN ? '✅' : '❌ MISSING');
 
-// Log env var for debugging
-console.log('USE_MOCK:', process.env.USE_MOCK);
-console.log('VEHICLE_ID:', process.env.VEHICLE_ID);
-
+// GET truck location from Bouncie
 app.get('/api/truck-location', async (req, res) => {
-  if ((process.env.USE_MOCK || '').toLowerCase() === 'true') {
-    return res.json({ latitude: 41.8781, longitude: -87.6298 }); // Chicago
-  }
-
   try {
-    const response = await axios.get(
-      `https://api.bouncie.dev/api/v1/vehicles/${process.env.VEHICLE_ID}/locations`,
+    const response = await axios.post(
+      `https://api.bouncie.dev/v1/vehicles/${process.env.VEHICLE_ID}/locations`,
+      {}, // no body needed
       {
         headers: {
-          Authorization: `Bearer ${process.env.BOUNCIE_API_KEY}`
+          Authorization: process.env.BOUNCIE_ACCESS_TOKEN
         }
       }
     );
 
     const latest = response.data[0];
-    res.json({ latitude: latest.latitude, longitude: latest.longitude });
+    res.json({ latitude: latest.lat, longitude: latest.lon });
   } catch (error) {
     console.error('Error fetching truck location:', error.response?.data || error.message);
     res.status(500).json({
@@ -39,22 +33,12 @@ app.get('/api/truck-location', async (req, res) => {
   }
 });
 
+// GET full vehicle list from Bouncie
 app.get('/api/vehicle-list', async (req, res) => {
-  if ((process.env.USE_MOCK || '').toLowerCase() === 'true') {
-    return res.json([
-      {
-        id: 'mock123',
-        make: 'Mercedes',
-        model: 'Sprinter 3500',
-        year: 2019
-      }
-    ]);
-  }
-
   try {
-    const response = await axios.get('https://api.bouncie.dev/api/v1/vehicles', {
+    const response = await axios.get('https://api.bouncie.dev/v1/vehicles', {
       headers: {
-        Authorization: `Bearer ${process.env.BOUNCIE_API_KEY}`
+        Authorization: process.env.BOUNCIE_ACCESS_TOKEN
       }
     });
 
@@ -69,4 +53,6 @@ app.get('/api/vehicle-list', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ Halal Truck Tracker running on port ${PORT}`);
+});
